@@ -7,6 +7,8 @@ kanban-plugin: board
 ## Fixos
 
 - [ ] Estudar arquitetura de backup e funcionamento das queries
+- [ ] Integração do Grupo de Ofertas + Catálogo Online
+- [ ] Agenda para ordem de serviço
 
 
 ## A fazer
