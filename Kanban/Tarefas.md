@@ -10,6 +10,7 @@ kanban-plugin: board
 - [ ] Integração do Grupo de Ofertas + Catálogo Online
 - [ ] Agenda para ordem de serviço
 - [ ] Widget do Chatwoot para Catálogo Online
+- [ ] Campanhas segmentadas com grupo de ofertas
 
 
 ## A fazer
