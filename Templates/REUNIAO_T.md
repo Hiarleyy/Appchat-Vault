@@ -1,8 +1,7 @@
 ---
 data:
-tipo: reunião
+tags: reunião
 participantes: []
-assunto:
 status: em aberto
 ---
 ---

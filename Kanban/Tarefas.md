@@ -18,7 +18,7 @@ kanban-plugin: board
 - [ ] Estudo da API chatwoot
 
 
-## Finalizado 02/2026
+## Finalizado 03/2026
 
 
 
