@@ -7,83 +7,6 @@ references:
   - https://developers.chatwoot.com/api-reference/introduction
 relacionados: []
 ---
----
-# Api de aplicação
-
-> [!NOTE]
-> As APis de aplicação são projetadas para interagir com uma conta do ChatWoot da perspectiva de um ***agente/administrador***. Utilize para criar ferramentas internas de importação e exportação dos dados.
-
-## Autenticação
-Requer o um nome de usuário ==**(acess_token)**==, gerado nas Configurações do Perfil, após fazer login na conta do ChatWoot.
-## Disponibilidade
-Compatível com instalações do chatwoot na nuvem e em servidores próprios.
-
-# Conta
-
-## [Obter detalhes da conta (Get)](https://asaa-4968020.postman.co/workspace/My-Workspace~024cedf2-663d-4b70-8296-163caa4011d8/request/43702588-c1c35a14-5573-48ae-ae06-f8663d9eba1d?action=share&source=copy-link&creator=43702588&ctx=documentation)
-- Obtém dados da Conta atual - (ADMINISTRADOR)
-
-```Javascript
- curl --request GET \
-  --url https://app.chatwoot.com/api/v1/accounts/{id} \
-  --header 'api_access_token: EVa5C6mYHAGcJ18uctU7ENdg'
-```
-
-## [Registro de Auditoria (Get)]()
-
-- Obtenha detalhes das entradas do log de auditoria de uma conta. Este endpoint está disponível apenas nas edições Enterprise e requer que o recurso ==audit_logs== esteja habilitado.
-
-``` javascript
-curl --request GET \
-  --url 'https://app.chatwoot.com/api/v1/accounts/{account_id}/audit_logs?page=1' \
-  --header 'api_access_token: XkrhDJKaaBGKcP2uNDFHSPsA'
-```
-
-# Contatos
-
-## [Listar Contatos(Get)](https://asaa-4968020.postman.co/workspace/My-Workspace~024cedf2-663d-4b70-8296-163caa4011d8/request/43702588-876d9f45-dae5-4e3a-ae3a-026bf8a3c6a6?action=share&source=copy-link&creator=43702588)
-
-- Lista de todos os contatos resolvidos com paginação (Tamanho da página = 15). Contatos resolvidos são aqueles que possuem um valor para identificador, e-mail ou número de telefone.
-  
-```javascript
-const options = {method: 'GET', headers: {api_access_token: '<api-key>'}};
-
-fetch('https://app.chatwoot.com/api/v1/accounts/{account_id}/contacts?page=1', options)
-  .then(res => res.json())
-  .then(res => console.log(res))
-  .catch(err => console.error(err));
-```
-
-## [Criar Contato](https://asaa-4968020.postman.co/workspace/My-Workspace~024cedf2-663d-4b70-8296-163caa4011d8/request/43702588-ab79f6c9-e126-4fc3-ad17-14f0b590bd85?action=share&source=copy-link&creator=43702588)
-
-- Criar um novo contato
-
-``` javascript
-const options = {
-  method: 'POST',
-  headers: {api_access_token: '<api-key>', 'Content-Type': 'application/json'},
-  body: JSON.stringify({
-    inbox_id: 1,
-    name: 'Alice',
-    email: 'alice@acme.inc',
-    blocked: false,
-    phone_number: '+123456789',
-    avatar: '<string>',
-    avatar_url: 'https://example.com/avatar.png',
-    identifier: '1234567890',
-    additional_attributes: {type: 'customer', age: 30},
-    custom_attributes: {}
-  })
-};
-
-fetch('https://app.chatwoot.com/api/v1/accounts/{account_id}/contacts', options)
-  .then(res => res.json())
-  .then(res => console.log(res))
-  .catch(err => console.error(err));
-```
-## [Mostrar Contato]()
-
-- Mostrar contato utilizando ID
 
 ``` Javascript
 const options = {method: 'GET', headers: {api_access_token: '<api-key>'}};
@@ -134,3 +57,107 @@ fetch('https://app.chatwoot.com/api/v1/accounts/{account_id}/contacts/{id}', opt
   .then(res => console.log(res))
   .catch(err => console.error(err));
 ```
+
+## [Coletar Conversas de um Contato ](https://asaa-4968020.postman.co/workspace/My-Workspace~024cedf2-663d-4b70-8296-163caa4011d8/request/43702588-5ad876c6-32c8-4353-8902-417122d8362a?action=share&source=copy-link&creator=43702588)
+
+- Coleta todas as conversas associadas aquele contato, incluindo todos os agentes que o contato já conversou.
+```javascript
+const options = {method: 'GET', headers: {api_access_token: '<api-key>'}};
+
+fetch('https://app.chatwoot.com/api/v1/accounts/{account_id}/contacts/{id}/conversations', options)
+  .then(res => res.json())
+  .then(res => console.log(res))
+  .catch(err => console.error(err));
+```
+
+## [Busca nos contatos por Palavra-Chave](https://asaa-4968020.postman.co/workspace/My-Workspace~024cedf2-663d-4b70-8296-163caa4011d8/request/43702588-4610f2c1-9c64-4380-bae7-b2cf2fbf4f75?action=share&source=copy-link&creator=43702588)
+
+- Busca informações nos contatos com palavra-chave, atualmente suportando pesquisas de email. Encontra contatos que possuem um identificador sendo email ou telefone.
+```javascript
+const options = {method: 'GET', headers: {api_access_token: '<api-key>'}};
+
+fetch('https://app.chatwoot.com/api/v1/accounts/{account_id}/contacts/search?page=1', options)
+  .then(res => res.json())
+  .then(res => console.log(res))
+  .catch(err => console.error(err));
+```
+
+## [Filtro de Contatos]()
+
+- Filtra os contatos com um filtro customizado e paginação
+
+```Javascript
+const options = {
+  method: 'POST',
+  headers: {api_access_token: '<api-key>', 'Content-Type': 'application/json'},
+  body: JSON.stringify({
+    payload: [
+      {
+        attribute_key: 'name',
+        filter_operator: 'equal_to',
+        values: ['en'],
+        query_operator: 'AND'
+      },
+      {
+        attribute_key: 'country_code',
+        filter_operator: 'equal_to',
+        values: ['us'],
+        query_operator: null
+      }
+    ]
+  })
+};
+
+fetch('https://app.chatwoot.com/api/v1/accounts/{account_id}/contacts/filter', options)
+  .then(res => res.json())
+  .then(res => console.log(res))
+  .catch(err => console.error(err));
+```
+
+## [Criar uma caixa de contatos]()
+
+- Criar um registro de caixa de entrada de contato para uma caixa de entrada
+```javascript
+const options = {
+  method: 'POST',
+  headers: {api_access_token: '<api-key>', 'Content-Type': 'application/json'},
+  body: JSON.stringify({inbox_id: 1, source_id: '<string>'})
+};
+
+fetch('https://app.chatwoot.com/api/v1/accounts/{account_id}/contacts/{id}/contact_inboxes', options)
+  .then(res => res.json())
+  .then(res => console.log(res))
+  .catch(err => console.error(err));
+```
+
+## [Obtenha caixas de entrada acessíveis]()
+
+ - Obtenha uma lista de caixas de entrada de contatos
+
+```javascript
+const options = {method: 'GET', headers: {api_access_token: '<api-key>'}};
+
+fetch('https://app.chatwoot.com/api/v1/accounts/{account_id}/contacts/{id}/contactable_inboxes', options)
+  .then(res => res.json())
+  .then(res => console.log(res))
+  .catch(err => console.error(err));
+```
+
+
+## [Unir Contatos]()
+
+- Mesclar dois contatos em um único contato. O contato base permanece e recebe todos os dados do contato mesclado. Após a mesclagem, o contato mesclado é excluído permanentemente. Essa ação é irreversível. Todas as conversas, marcadores e atributos personalizados do contato mesclado serão transferidos para o contato base.
+
+```javascript
+const options = {
+  method: 'POST',
+  headers: {api_access_token: '<api-key>', 'Content-Type': 'application/json'},
+  body: JSON.stringify({base_contact_id: 1, mergee_contact_id: 2})
+};
+
+fetch('https://app.chatwoot.com/api/v1/accounts/{account_id}/actions/contact_merge', options)
+  .then(res => res.json())
+  .then(res => console.log(res))
+  .catch(err => console.error(err));
+```
+
