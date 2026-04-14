@@ -7,7 +7,7 @@ references:
   - https://green-api.com/en/waba/docs/api/
 relacionados: []
 ---
-
+\
 ## Tópicos Principais
 
 ### 1. Número de Telefone Empresarial
